@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package kota.control.v1;
+
+option go_package = "github.com/sai-kumar-peddireddy/KOTA/api/gen/go/kota/control/v1;controlv1";
+
+// KotaControlPlane is the node-local control plane API served by kotad.
+//
+// Default endpoint for CLI/server integration is:
+//   unix:///run/kota/kotad.sock
+service KotaControlPlane {
+  // ApplyPolicy uploads or updates one YAML policy document.
+  rpc ApplyPolicy(ApplyPolicyRequest) returns (ApplyPolicyResponse);
+
+  // GetStatus returns the current status snapshot for tracked workloads.
+  rpc GetStatus(GetStatusRequest) returns (GetStatusResponse);
+}
+
+message ApplyPolicyRequest {
+  // Raw policy YAML content to validate and persist.
+  string policy_yaml = 1;
+
+  // Optional source label (for example "kotactl -f policy.yaml").
+  string source = 2;
+}
+
+message ApplyPolicyResponse {
+  // Stable policy identifier resolved by the server.
+  string policy_id = 1;
+
+  // True when the request created a new policy, false on update.
+  bool created = 2;
+
+  // Optional server message for user feedback.
+  string message = 3;
+}
+
+message GetStatusRequest {}
+
+message WorkloadStatus {
+  // Stable runtime key (cgroup id or pod key) chosen by the server.
+  string workload_key = 1;
+  string namespace = 2;
+  string pod = 3;
+  string profile = 4;
+  string verdict = 5;
+  bool armed = 6;
+}
+
+message GetStatusResponse {
+  repeated WorkloadStatus workloads = 1;
+}

@@ -1,0 +1,11 @@
+# Scrape OTel collector Prometheus exporter (path A in tests/README.md).
+# Grafana PromQL needs a real Prometheus (or Mimir); the collector :9091 endpoint is scrape-only.
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: otel-collector
+    static_configs:
+      - targets: ["kota-otelcol:9091"]
+    metrics_path: /metrics

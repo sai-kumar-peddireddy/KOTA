@@ -1,0 +1,18 @@
+# OpenTelemetry Collector demo: OTLP/HTTP in → Prometheus text on :9091 for Grafana (V3.7 path A).
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+
+exporters:
+  debug:
+    verbosity: detailed
+  prometheus:
+    endpoint: 0.0.0.0:9091
+
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      exporters: [debug, prometheus]

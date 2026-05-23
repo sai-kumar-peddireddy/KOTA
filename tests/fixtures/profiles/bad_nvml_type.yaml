@@ -1,0 +1,5 @@
+version: 1
+name: "BrokenTemp"
+management_ports: [443]
+nvml:
+  max_temperature_c: {invalid: 1}

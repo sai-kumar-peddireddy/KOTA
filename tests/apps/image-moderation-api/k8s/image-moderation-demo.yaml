@@ -1,0 +1,75 @@
+# Minimal demo Deployment + Service for KOTA Image Moderation API.
+# Tune image, GPU resource limits, namespace, and kota.ai/profile to match lab policy / demo rehearsal.
+#
+# Reference: docs/tasks/demo.md — ports 8000 (inference), 2000 (admin).
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kota-demo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kota-image-moderation
+  namespace: kota-demo
+  labels:
+    app: kota-image-moderation
+    kota.ai/profile: NVML-Lab-Fault-Injection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kota-image-moderation
+  template:
+    metadata:
+      labels:
+        app: kota-image-moderation
+        kota.ai/profile: NVML-Lab-Fault-Injection
+      # Same key as labels — helps CRI/OCI paths that surface annotations (see tests/manual/e2e_network_gpu.sh).
+      annotations:
+        kota.ai/profile: NVML-Lab-Fault-Injection
+    spec:
+      containers:
+        - name: app
+          image: kota-image-moderation:latest
+          imagePullPolicy: Never
+          ports:
+            - name: inference
+              containerPort: 8000
+            - name: admin
+              containerPort: 2000
+          env:
+            - name: AI_PORT
+              value: "8000"
+            - name: ADMIN_PORT
+              value: "2000"
+            # Matches Service admin nodePort; demo page fetch() uses this instead of :2000 for remote browsers.
+            - name: ADMIN_BROWSER_PORT
+              value: "32000"
+          resources:
+            limits:
+              # Adjust to cluster GPU vendor plugin naming (e.g. nvidia.com/gpu).
+              nvidia.com/gpu: "1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kota-image-moderation
+  namespace: kota-demo
+  labels:
+    app: kota-image-moderation
+spec:
+  type: NodePort
+  selector:
+    app: kota-image-moderation
+  ports:
+    - name: inference
+      port: 8000
+      targetPort: inference
+      # Host-accessible; use <node-ip>:30800 so traffic traverses dataplane toward lxc (not kubectl port-forward).
+      nodePort: 30800
+    - name: admin
+      port: 2000
+      targetPort: admin
+      nodePort: 32000
