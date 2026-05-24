@@ -309,7 +309,10 @@ std::expected<void, std::string> OtelExporter::init(std::string_view endpoint)
 
     sdk_metrics::PeriodicExportingMetricReaderOptions reader_options{};
     reader_options.export_interval_millis = otel_metric_export_interval();
-    reader_options.export_timeout_millis    = std::chrono::milliseconds(10000);
+    reader_options.export_timeout_millis  = std::chrono::milliseconds(
+        reader_options.export_interval_millis.count() > 1000
+            ? reader_options.export_interval_millis.count() - 500
+            : reader_options.export_interval_millis.count() / 2);
 
     auto reader =
         sdk_metrics::PeriodicExportingMetricReaderFactory::Create(

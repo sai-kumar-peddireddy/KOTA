@@ -7,9 +7,16 @@
 
 ---
 
+## 📺 Architecture & Live Demo Walkthrough
+-----
+Watch the full system architecture breakdown and live cluster enforcement demo here:  
+**[KOTA Architecture & Live Demo Walkthrough (YouTube)](https://youtu.be/zDdDcGgEjJI)**
+
+---
+
 ## 1. The Core Thesis: Bridging the GPU Observability Gap
 
-At KubeCon Europe 2026, the cloud-native infrastructure landscape explicitly exposed the **"Visibility Illusion"**—the critical performance and security blind spot caused by treating accelerator hardware metrics (NVML/DCGM) and network fabric routing as decoupled abstractions. When multi-tenant GPU nodes experience hardware faults, silent kernel stalls, thermal throttling, or unauthorized execution anomalies, traditional userspace orchestrators cannot intercept line-rate traffic instantly. This creates cascade bottlenecks, container zombie states, and cluster-wide training or inference deadlocks.
+At [KubeCon Europe 2026](https://youtu.be/mkH38O3wLog?si=iHetec2fnPII0CAx), the cloud-native infrastructure landscape explicitly exposed the **"Visibility Illusion"**—the critical performance and security blind spot caused by treating accelerator hardware metrics (NVML/DCGM) and network fabric routing as decoupled abstractions. When multi-tenant GPU nodes experience hardware faults, silent kernel stalls, thermal throttling, or unauthorized execution anomalies, traditional userspace orchestrators cannot intercept line-rate traffic instantly. This creates cascade bottlenecks, container zombie states, and cluster-wide training or inference deadlocks.
 
 **KOTA is a highly optimized, polyglot systems architecture built to solve this exact dilemma.** Instead of relying on delayed userspace polling or out-of-band sidecars, KOTA establishes an **Atomic Hardware-to-Network Interlock** directly inside the Linux kernel data plane.
 
