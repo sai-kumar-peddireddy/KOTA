@@ -1,0 +1,10 @@
+# Lab profile for deterministic NVML fault injection.
+version: 1
+name: "NVML-Lab-Fault-Injection"
+management_ports: [22, 443, 8080, 2000]
+ai_ports: [8000, 5000]
+ioctl_policy:
+  deny_cmds_hex: ["0x4601", "0xC020462A", "0xC0304627"]
+nvml:
+  max_temperature_c: 62
+  memory_error_causes_violation: true

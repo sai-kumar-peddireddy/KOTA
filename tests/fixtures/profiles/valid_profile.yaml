@@ -1,0 +1,8 @@
+# S3.1 — valid CE profile (schema version 1)
+version: 1
+name: "Inference-Only"
+management_ports: [22, 443, 8080]
+ai_ports: [8000, 5000]
+nvml:
+  max_temperature_c: 90
+  memory_error_causes_violation: true

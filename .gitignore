@@ -1,0 +1,56 @@
+# CMake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+compile_commands.json
+build/
+build-*/
+out/
+bin/
+
+# eBPF Generated & Object Files
+*.bpf.o
+*.skel.h
+*.o
+
+# KOTA Executables
+kota-agent
+kota/kota-agent
+kotad
+kota/kotad
+kota-sentinel
+kota/kota-sentinel
+
+# Go Build Artifacts
+.cache/
+governor/bin/
+governor/vendor/
+governor/governor
+*.test
+*.out
+
+# Test Output
+tests/results/
+# CTest leaves this at repo root if `ctest` is run from the wrong directory;
+# use `cd build && ctest` so artifacts stay under `build/Testing/`.
+Testing/
+*.xml
+*.json.bak
+
+# Runtime / State
+/var/lib/kota/
+*.db
+
+# IDE / Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Package Managers (vcpkg / Conan / Go modules cache)
+vcpkg/
+vcpkg_installed/
+.vcpkg/
+*.lock

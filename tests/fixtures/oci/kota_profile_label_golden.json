@@ -1,0 +1,11 @@
+{
+  "ociVersion": "1.0.2",
+  "config": {
+    "Hostname": "workload-abc12",
+    "Labels": {
+      "io.kubernetes.cri.sandbox-name": "gpu-demo-7c9",
+      "io.kubernetes.cri.sandbox-namespace": "workloads",
+      "kota.ai/profile": "Inference-Only"
+    }
+  }
+}
